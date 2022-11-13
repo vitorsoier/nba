@@ -1,7 +1,6 @@
 #importando bibliotecas
 import pandas as pd
 import streamlit as st
-import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
@@ -92,9 +91,6 @@ st.write('F1 score :', f1_scor)
 #matriz de confusão
 st.subheader('Matriz de confusão')
 plot_confusion_matrix(logistic_regression, X_test, y_test, cmap = "Blues" )
-plt.tight_layout()
-plt.ylabel('True label')
-plt.xlabel('Predicted label')
 st.pyplot()
 
 #prevendo com base nas seleções
