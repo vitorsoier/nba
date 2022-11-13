@@ -1,12 +1,15 @@
 #importando bibliotecas
 import pandas as pd
 import streamlit as st
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import plot_confusion_matrix
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
+#tirando alertas
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 #Importando dados limpos
 df = pd.read_csv('dados/df_13_22.csv')
@@ -24,8 +27,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, Y,
 #configurando detalhes da pagina
 st.set_page_config(page_icon="🏀", page_title="NBA-Tera")
 
+container = st.container()
 #titulo
-st.header("Projeto NBA - Tera")
+container.header("Projeto NBA - Tera")
+container.image('utils/nba.jpg')
 
 #informações
 st.write("""
@@ -78,10 +83,19 @@ presicion = precision_score(y_test, y_pred, pos_label=1).round(2)
 recall = recall_score(y_test, y_pred, pos_label=1).round(2)
 f1_scor = metrics.f1_score(y_test, y_pred, pos_label=1).round(2)
 
-st.subheader('Médidas do modelo')
+
+st.subheader('Medidas do modelo')
 st.write('Precision :', presicion)
 st.write('Recall :', recall)
 st.write('F1 score :', f1_scor)
+
+#matriz de confusão
+st.subheader('Matriz de confusão')
+plot_confusion_matrix(logistic_regression, X_test, y_test, cmap = "Blues" )
+plt.tight_layout()
+plt.ylabel('True label')
+plt.xlabel('Predicted label')
+st.pyplot()
 
 #prevendo com base nas seleções
 prediction = logistic_regression.predict(team_input_variables)
